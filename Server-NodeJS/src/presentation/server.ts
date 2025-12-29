@@ -1,6 +1,8 @@
+import cors from "cors";
 import express, { Router } from "express";
 import path from "path";
-import cors from "cors";
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from '../config/swagger';
 
 interface Options {
   port: number;
@@ -31,6 +33,13 @@ export class Server {
 
     //* Routes
     this.app.use(this.routes);
+
+    //* Swagger Docs
+    this.app.use(
+      '/api/docs',
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerSpec)
+    );
 
     //* SPA
     this.app.use((req, res) => {
