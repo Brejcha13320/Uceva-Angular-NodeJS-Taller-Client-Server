@@ -1,0 +1,25 @@
+<table class="table table-striped border">
+	<thead>
+		<tr>
+			<th scope="col">Id</th>
+			<th scope="col">Nombre</th>
+			<th scope="col">Precio</th>
+			<th scope="col">Categoria</th>
+		</tr>
+	</thead>
+	<tbody>
+		@for (product of products; track product) {
+			<tr>
+				<th scope="row">{{ product.id }}</th>
+				<td>{{ product.name }}</td>
+				<td>{{ product.price | currency }}</td>
+				<td>
+					<dsb-badge-atom
+						[text]="product.category"
+						[type]="categoryMap[product.category]" >
+                    </dsb-badge-atom>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

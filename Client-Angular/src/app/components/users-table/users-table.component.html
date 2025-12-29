@@ -1,0 +1,29 @@
+<table class="table table-striped border">
+	<thead>
+		<tr>
+			<th scope="col">Id</th>
+			<th scope="col">Nombre</th>
+			<th scope="col">Apellido</th>
+			<th scope="col">Edad</th>
+			<th scope="col">Email</th>
+			<th scope="col">Ingenieria</th>
+		</tr>
+	</thead>
+	<tbody>
+		@for (user of users; track user) {
+			<tr>
+				<th scope="row">{{ user.id }}</th>
+				<td>{{ user.name }}</td>
+				<td>{{ user.lastName }}</td>
+				<td>{{ user.age }}</td>
+				<td>{{ user.email }}</td>
+				<td>
+					<dsb-badge-atom 
+						[text]="user.engineering"
+						[type]="engineeringMap[user.engineering]" >
+					</dsb-badge-atom>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
