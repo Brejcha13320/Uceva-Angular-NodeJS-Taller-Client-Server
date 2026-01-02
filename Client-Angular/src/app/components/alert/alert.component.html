@@ -1,0 +1,15 @@
+<div [class]="getClass()"  role="alert">
+    @if(this.alertState === 'error'){
+        <dsb-icon-atom icon="exclamation-triangle" [size]="2" ></dsb-icon-atom>
+    }
+
+    @if(this.alertState === 'loading'){
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+
+    <div class="ps-3 fw-bold" >
+        {{ text }}
+    </div>
+</div>

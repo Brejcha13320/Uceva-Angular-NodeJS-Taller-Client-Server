@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { UsersTableComponent } from '../../components/users-table/users-table.component';
 import { User } from '../../interfaces/users.interface';
 import { UsersService } from '../../services/users/users.service';
+import { State } from '../../interfaces/state.interface';
+import { AlertComponent } from '../../components/alert/alert.component';
 
 /**
  * Componente contenedor de usuarios.
@@ -17,8 +19,8 @@ import { UsersService } from '../../services/users/users.service';
  */
 @Component({
   selector: 'app-users',
-  template: `<app-users-table [users]="users" ></app-users-table>`,
-  imports: [UsersTableComponent],
+  templateUrl: './users.page.html',
+  imports: [UsersTableComponent, AlertComponent],
 })
 export class UsersPage {
   /**
@@ -26,6 +28,12 @@ export class UsersPage {
    * @type {User[]}
    */
   users: User[] = [];
+  /**
+   * Estado actual del componente.
+   *
+   * @default 'init'
+   */
+  state: State = 'init';
 
   /**
    * Servicio para obtener usuarios.
@@ -41,9 +49,16 @@ export class UsersPage {
    * asigna los datos recibidos a la propiedad `users`.
    */
   ngOnInit(): void {
+    this.state = 'loading';
     this.usersService.getAllUsers(10).subscribe({
-      next: (users) => this.users = users,
-      error: (error) => console.error(error),
+      next: (users) => {
+        this.users = users;
+        this.state = 'success';
+      },
+      error: (error) => {
+        console.error(error)
+        this.state = 'error';
+      },
     })
   }
 }

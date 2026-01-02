@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { ProductsTableComponent } from '../../components/products-table/products-table.component';
 import { Product } from '../../interfaces/products.interface';
 import { ProductsService } from '../../services/products/products.service';
+import { State } from '../../interfaces/state.interface';
+import { AlertComponent } from '../../components/alert/alert.component';
 
 /**
  * Componente contenedor de productos.
@@ -17,8 +19,8 @@ import { ProductsService } from '../../services/products/products.service';
  */
 @Component({
   selector: 'app-producs',
-  template: `<app-products-table [products]="products" ></app-products-table>`,
-  imports: [ProductsTableComponent]
+  templateUrl: `./products.page.html`,
+  imports: [ProductsTableComponent, AlertComponent]
 })
 export class ProductsPage {
   /**
@@ -26,6 +28,13 @@ export class ProductsPage {
    * @type {Product[]}
    */
   products: Product[] = [];
+  /**
+     * Estado actual del componente.
+     *
+     * @default 'init'
+     */
+    state: State = 'init';
+  
 
   /**
    * Servicio para obtener productos.
@@ -41,9 +50,16 @@ export class ProductsPage {
    * asigna los datos recibidos a la propiedad `products`.
    */
   ngOnInit(): void {
+    this.state = 'loading';
     this.productsService.getAllProducts(10).subscribe({
-      next: (products) => this.products = products,
-      error: (error) => console.error(error),
+      next: (products) => {
+        this.products = products;
+        this.state = 'success';
+      },
+      error: (error) => {
+        console.error(error)
+        this.state = 'error';
+      },
     })
   }
 }

@@ -34,9 +34,11 @@ export class ProductsController {
   getAllProducts = (req: Request, res: Response): void => {
     const { countProducts } = req.params;
 
-    this.productsService
+    setTimeout(() => {
+      this.productsService
       .getAllProducts(Number(countProducts))
       .then((products) => res.status(201).json(products))
       .catch((error) => HandleError.error(error, res));
+    }, 3000);
   };
 }

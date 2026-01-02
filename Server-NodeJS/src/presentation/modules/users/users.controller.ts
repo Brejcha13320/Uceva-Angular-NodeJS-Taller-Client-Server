@@ -34,9 +34,11 @@ export class UsersController {
   getAllUsers = (req: Request, res: Response): void => {
     const { countUsers } = req.params;
 
-    this.usersService
+    setTimeout(() => {
+      this.usersService
       .getAllUsers(Number(countUsers))
       .then((users) => res.status(201).json(users))
       .catch((error) => HandleError.error(error, res));
+    }, 3000);
   };
 }
